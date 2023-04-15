@@ -1,7 +1,7 @@
-package Services;
+package com.example.day_trade.Services;
 
-import Entities.User;
-import Repositories.UserRepository;
+import com.example.day_trade.Entities.Traders;
+import com.example.day_trade.Repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,8 +13,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void saveUser(User user){
-        userRepository.save(user);
+    public Traders signup(String newUserName){
+
+        Traders newUser = new Traders();
+        newUser.setFullName(newUserName);
+        return userRepository.save(newUser);
     }
 
 }

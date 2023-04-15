@@ -1,4 +1,4 @@
-package com.example.day_trade;
+package com.example.day_trade.DBTest;
 
 import com.example.day_trade.Entities.Traders;
 import com.example.day_trade.Repositories.UserRepository;

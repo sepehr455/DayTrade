@@ -1,22 +1,23 @@
-package Entities;
+package com.example.day_trade.Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "stock_id"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"userId", "stock_id"})})
 public class UserStock {
 
     @Id
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User user;
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private Traders user;
 
     @ManyToOne
     @JoinColumn(name = "stock_id", referencedColumnName = "stock_id")
@@ -28,7 +29,7 @@ public class UserStock {
         return id;
     }
 
-    public User getUser() {
+    public Traders getUser() {
         return user;
     }
 
@@ -40,7 +41,7 @@ public class UserStock {
         return quantity;
     }
 
-    public void setUser(User user) {
+    public void setUser(Traders user) {
         this.user = user;
     }
 

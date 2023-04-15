@@ -5,20 +5,38 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class User {
+public class Traders {
     @Id
-    String user_id;
+    public String userId;
 
-    String fullName;
+    public String fullName;
 
     int currentBalance;
 
-    public String getUser_id() {
-        return user_id;
+    public Traders(){
+
+    }
+
+    public Traders(String userId, String fullName, int currentBalance) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.currentBalance = currentBalance;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String user_id) {
+        this.userId = user_id;
     }
 
     public String getFullName() {
         return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public int getCurrentBalance() {
@@ -28,18 +46,4 @@ public class User {
     public void setCurrentBalance(int currentBalance) {
         this.currentBalance = currentBalance;
     }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    // A method for testing purposes
-    public User createNewUser(String user_id, String fullName) {
-        User newUser = new User();
-        newUser.setFullName(fullName);
-        newUser.user_id = user_id;
-        newUser.setCurrentBalance(0);
-        return newUser;
-    }
-
 }

@@ -1,6 +1,6 @@
-package Services;
+package com.example.day_trade.Services;
 
-import Repositories.StockRepository;
+import com.example.day_trade.Repositories.StockRepository;
 import org.springframework.stereotype.Service;
 
 @Service

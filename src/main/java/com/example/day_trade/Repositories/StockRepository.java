@@ -1,6 +1,6 @@
-package Repositories;
+package com.example.day_trade.Repositories;
 
-import Entities.Stock;
+import com.example.day_trade.Entities.Stock;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

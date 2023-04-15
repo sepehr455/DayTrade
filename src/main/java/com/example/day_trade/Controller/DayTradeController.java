@@ -1,8 +1,8 @@
-package Controller;
+package com.example.day_trade.Controller;
 
-import Entities.User;
-import Services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.day_trade.Dto.UserDto;
+import com.example.day_trade.Entities.Traders;
+import com.example.day_trade.Services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,18 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class DayTradeController {
 
-    @Autowired
-    private UserService userService;
-
+    final private UserService userService;
+    public DayTradeController(UserService userService) {
+        this.userService = userService;
+    }
 
     // Adding a new user
     @PostMapping("/user/add")
-    public ResponseEntity<String> getUserInfo(@RequestBody String newUserName){
-        User newUser = new User();
-        newUser.setFullName(newUserName);
-        userService.saveUser(newUser);
-        return ResponseEntity.ok("New user added successfully");
+    public ResponseEntity<UserDto> getUserInfo(@RequestBody String newUserName) {
+        Traders signedupTrader = userService.signup(newUserName);
+        UserDto userDto = new UserDto(signedupTrader.getFullName());
+        return ResponseEntity.ok(userDto);
     }
+
+    // Method for getting a user's holding
+//    @GetMapping("/user/{user_id}/holding")
+//    public ResponseEntity<UserDto> getUserHolding(@RequestBody String userId){
+//
+//    }
 
 
 }
