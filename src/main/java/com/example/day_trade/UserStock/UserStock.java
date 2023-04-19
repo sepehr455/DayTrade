@@ -1,6 +1,8 @@
-package com.example.day_trade.Entities;
+package com.example.day_trade.UserStock;
 
 
+import com.example.day_trade.Stock.Stock;
+import com.example.day_trade.Trader.Trader;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -17,7 +19,7 @@ public class UserStock {
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private Traders user;
+    private Trader user;
 
     @ManyToOne
     @JoinColumn(name = "stock_id", referencedColumnName = "stock_id")
@@ -29,7 +31,7 @@ public class UserStock {
         return id;
     }
 
-    public Traders getUser() {
+    public Trader getUser() {
         return user;
     }
 
@@ -41,7 +43,7 @@ public class UserStock {
         return quantity;
     }
 
-    public void setUser(Traders user) {
+    public void setUser(Trader user) {
         this.user = user;
     }
 

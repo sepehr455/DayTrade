@@ -1,11 +1,15 @@
-package com.example.day_trade.Entities;
+package com.example.day_trade.Trader;
 
 
+import com.example.day_trade.UserStock.UserStock;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
 
 @Entity
-public class Traders {
+public class Trader {
     @Id
     public String userId;
 
@@ -13,11 +17,14 @@ public class Traders {
 
     int currentBalance;
 
-    public Traders(){
+    @OneToMany
+    public List<UserStock> userHoldings;
+
+    public Trader(){
 
     }
 
-    public Traders(String userId, String fullName, int currentBalance) {
+    public Trader(String userId, String fullName, int currentBalance) {
         this.userId = userId;
         this.fullName = fullName;
         this.currentBalance = currentBalance;

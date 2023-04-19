@@ -1,4 +1,4 @@
-package com.example.day_trade.Entities;
+package com.example.day_trade.Stock;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
