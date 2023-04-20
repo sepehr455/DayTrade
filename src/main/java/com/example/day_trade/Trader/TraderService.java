@@ -6,29 +6,43 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("WriteOnlyObject")
 @Service
 public class TraderService {
 
-    private final TraderRepository userRepository;
+    private final TraderRepository traderRepository;
 
-    public TraderService(TraderRepository userRepository) {
-        this.userRepository = userRepository;
+
+    public TraderService(TraderRepository traderRepository) {
+        this.traderRepository = traderRepository;
     }
 
-    public Trader signup(String newUserName){
+
+    // Method for finding a trader with the given userID
+    public Optional<Trader> getTraderById(String userId) {
+        return traderRepository.findById(userId);
+    }
+
+    // A method that creates a new trader with the given username
+    public Trader signup(String newUserName) {
 
         Trader newUser = new Trader();
         newUser.setFullName(newUserName);
-        return userRepository.save(newUser);
+        return traderRepository.save(newUser);
     }
 
-    public Optional<List<UserStock>> getUserHoldings(String userId){
+    public Optional<List<UserStock>> getUserHoldings(String userId) {
 
-        Optional<Trader> stockOwner = userRepository.findById(userId);
+        Optional<Trader> stockOwner = traderRepository.findById(userId);
 
-        //this is same as calling the userHoldings method on the optional object of stockOwner
         return stockOwner.map(traders -> traders.userHoldings);
-
     }
+
+    // Trader to Trader Dto Converter
+//    public Optional<TraderDto> TraderToTraderDtoConverter(Trader trader){
+//        TraderDto convertedTrader = new TraderDto(trader.fullName);
+//        convertedTrader.currentBalance = trader.currentBalance;
+//
+//    }
 
 }
