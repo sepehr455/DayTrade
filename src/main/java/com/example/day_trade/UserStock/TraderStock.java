@@ -4,6 +4,8 @@ package com.example.day_trade.UserStock;
 import com.example.day_trade.Stock.Stock;
 import com.example.day_trade.Trader.Trader;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -11,18 +13,19 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"userId", "stock_id"})})
-public class UserStock {
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"userId", "stockId"})})
+public class TraderStock {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private Trader user;
+    private Trader trader;
 
     @ManyToOne
-    @JoinColumn(name = "stock_id", referencedColumnName = "stock_id")
+    @JoinColumn(name = "stockId", referencedColumnName = "stockId")
     private Stock stock;
 
     private int quantity;
@@ -31,8 +34,8 @@ public class UserStock {
         return id;
     }
 
-    public Trader getUser() {
-        return user;
+    public Trader getTrader() {
+        return trader;
     }
 
     public Stock getStock() {
@@ -43,8 +46,8 @@ public class UserStock {
         return quantity;
     }
 
-    public void setUser(Trader user) {
-        this.user = user;
+    public void setTrader(Trader trader) {
+        this.trader = trader;
     }
 
     public void setStock(Stock stock) {

@@ -1,6 +1,6 @@
 package com.example.day_trade.Trader;
 
-import com.example.day_trade.UserStock.UserStock;
+import com.example.day_trade.UserStock.TraderStock;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class TraderService {
         return traderRepository.save(newUser);
     }
 
-    public Optional<List<UserStock>> getUserHoldings(Long userId) {
+    public Optional<List<TraderStock>> getUserHoldings(Long userId) {
 
         Optional<Trader> stockOwner = traderRepository.findById(userId);
 

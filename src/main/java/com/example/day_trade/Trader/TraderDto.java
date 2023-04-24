@@ -1,6 +1,6 @@
 package com.example.day_trade.Trader;
 
-import com.example.day_trade.UserStock.UserStockDto;
+import com.example.day_trade.UserStock.TraderStockDto;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class TraderDto {
 
     public int currentBalance;
 
-    public List<UserStockDto> userHoldings;
+    public List<TraderStockDto> userHoldings;
 
     public TraderDto(String fullName) {
         this.fullName = fullName;
@@ -20,7 +20,7 @@ public class TraderDto {
         this.currentBalance = currentBalance;
     }
 
-    public void setUserHoldings(List<UserStockDto> userHoldings) {
+    public void setUserHoldings(List<TraderStockDto> userHoldings) {
         this.userHoldings = userHoldings;
     }
 }

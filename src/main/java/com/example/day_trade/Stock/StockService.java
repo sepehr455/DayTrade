@@ -2,6 +2,8 @@ package com.example.day_trade.Stock;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StockService {
 
@@ -17,5 +19,13 @@ public class StockService {
         stockRepository.save(newStock);
     }
 
+    // Method for returning the stock with the given name
+    public Optional<Stock> getStockDetails(String stockName){
+        return stockRepository.findByStockName(stockName);
+    }
+
+    public StockDto stockToStockDtoConverter (Stock currentStock){
+        return new StockDto(currentStock.stockName, currentStock.stockPrice);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.day_trade.Stock;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +11,8 @@ public class Stock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long stock_id;
+    @Column(name = "stockId")
+    Long stockId;
 
     String stockName;
 
@@ -19,8 +21,9 @@ public class Stock {
     public Stock() {
     }
 
+
     public Long getStock_id() {
-        return stock_id;
+        return stockId;
     }
 
     public String getStockName() {

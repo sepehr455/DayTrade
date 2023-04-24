@@ -3,16 +3,16 @@ package com.example.day_trade.UserStock;
 import com.example.day_trade.Stock.Stock;
 import com.example.day_trade.Trader.Trader;
 
-public class UserStockDto {
+public class TraderStockDto {
 
-    private Trader user;
+    private Trader trader;
 
     private Stock stock;
 
     private int quantity;
 
-    public UserStockDto(Trader user, Stock stock, int quantity) {
-        this.user = user;
+    public TraderStockDto(Trader user, Stock stock, int quantity) {
+        this.trader = user;
         this.stock = stock;
         this.quantity = quantity;
     }

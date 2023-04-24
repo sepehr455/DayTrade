@@ -1,5 +1,7 @@
 package com.example.day_trade.UserStock;
 
+import com.example.day_trade.Stock.Stock;
+import com.example.day_trade.Stock.StockDto;
 import com.example.day_trade.Stock.StockService;
 import com.example.day_trade.Trader.Trader;
 import com.example.day_trade.Trader.TraderDto;
@@ -17,14 +19,14 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
-public class UserStockController {
+public class TraderStockController {
 
     final private TraderService traderService;
-    final private UserStockService userStockService;
+    final private TraderStockService userStockService;
     final private StockService stockService;
 
 
-    public UserStockController(TraderService userService, UserStockService userStockService, StockService stockService) {
+    public TraderStockController(TraderService userService, TraderStockService userStockService, StockService stockService) {
         this.traderService = userService;
         this.userStockService = userStockService;
         this.stockService = stockService;
@@ -41,12 +43,11 @@ public class UserStockController {
 
     //  Method for getting a user's holding
     @GetMapping("/user/{user_id}/holding")
-    public List<UserStockDto> getUserHolding(@PathVariable Long user_id) {
+    public List<TraderStockDto> getUserHolding(@PathVariable Long user_id) {
         return traderService.getUserHoldings(user_id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find resource"))
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"))
                 .stream()
                 .map(userStockService::userStockToUserStockDtoConverter).toList();
-
     }
 
     // Used for adding stocks
@@ -58,12 +59,12 @@ public class UserStockController {
 //        stockService.createNewStock("Adidas", 88);
 //    }
 
-//    // Method for getting info about the stock
-//    @GetMapping("/stock/{stock_id}")
-//    public ResponseEntity<Stock> getStockInfo(@PathVariable Long stock_id){
-//
-//
-//
-//
-//    }
+    // Method for getting info about the stock
+    @GetMapping("/stock/{stockName}")
+    public ResponseEntity<StockDto> getStockInfo(@PathVariable String stockName){
+        Stock stock = stockService.getStockDetails(stockName)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No stock found with the given name"));
+        StockDto stockDto = stockService.stockToStockDtoConverter(stock);
+        return ResponseEntity.ok(stockDto);
+    }
 }

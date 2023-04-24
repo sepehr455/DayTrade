@@ -1,7 +1,8 @@
 package com.example.day_trade.Trader;
 
 
-import com.example.day_trade.UserStock.UserStock;
+import com.example.day_trade.UserStock.TraderStock;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +15,7 @@ import java.util.List;
 public class Trader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId")
     public Long userId;
 
     public String fullName;
@@ -21,7 +23,7 @@ public class Trader {
     int currentBalance;
 
     @OneToMany
-    public List<UserStock> userHoldings;
+    public List<TraderStock> userHoldings;
 
     public Trader(){
 
