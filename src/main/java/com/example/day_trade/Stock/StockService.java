@@ -11,4 +11,11 @@ public class StockService {
         this.stockRepository = stockRepository;
     }
 
+    // Method for creating a stock (mainly used to create mock stocks)
+    public void createNewStock(String stockName, int stockPrice){
+        Stock newStock = new Stock(stockName, stockPrice);
+        stockRepository.save(newStock);
+    }
+
+
 }

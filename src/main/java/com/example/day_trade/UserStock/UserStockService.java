@@ -13,9 +13,4 @@ public class UserStockService {
         return new UserStockDto(userStock.getUser(), userStock.getStock(), userStock.getQuantity());
     }
 
-
-
-    public UserStockRepository getUserStockRepository() {
-        return userStockRepository;
-    }
 }

@@ -3,6 +3,8 @@ package com.example.day_trade.Trader;
 
 import com.example.day_trade.UserStock.UserStock;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
@@ -11,7 +13,8 @@ import java.util.List;
 @Entity
 public class Trader {
     @Id
-    public String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long userId;
 
     public String fullName;
 
@@ -24,17 +27,17 @@ public class Trader {
 
     }
 
-    public Trader(String userId, String fullName, int currentBalance) {
+    public Trader(Long userId, String fullName, int currentBalance) {
         this.userId = userId;
         this.fullName = fullName;
         this.currentBalance = currentBalance;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String user_id) {
+    public void setUserId(Long user_id) {
         this.userId = user_id;
     }
 

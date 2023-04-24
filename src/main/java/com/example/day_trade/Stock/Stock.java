@@ -1,19 +1,25 @@
 package com.example.day_trade.Stock;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Stock {
 
     @Id
-    String stock_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long stock_id;
 
     String stockName;
 
     int stockPrice;
 
-    public String getStock_id() {
+    public Stock() {
+    }
+
+    public Long getStock_id() {
         return stock_id;
     }
 
@@ -25,4 +31,8 @@ public class Stock {
         return stockPrice;
     }
 
+    public Stock(String stockName, int stockPrice) {
+        this.stockName = stockName;
+        this.stockPrice = stockPrice;
+    }
 }

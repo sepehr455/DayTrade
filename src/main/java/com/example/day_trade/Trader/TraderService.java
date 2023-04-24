@@ -19,7 +19,7 @@ public class TraderService {
 
 
     // Method for finding a trader with the given userID
-    public Optional<Trader> getTraderById(String userId) {
+    public Optional<Trader> getTraderById(Long userId) {
         return traderRepository.findById(userId);
     }
 
@@ -28,10 +28,11 @@ public class TraderService {
 
         Trader newUser = new Trader();
         newUser.setFullName(newUserName);
+        newUser.setCurrentBalance(0);
         return traderRepository.save(newUser);
     }
 
-    public Optional<List<UserStock>> getUserHoldings(String userId) {
+    public Optional<List<UserStock>> getUserHoldings(Long userId) {
 
         Optional<Trader> stockOwner = traderRepository.findById(userId);
 

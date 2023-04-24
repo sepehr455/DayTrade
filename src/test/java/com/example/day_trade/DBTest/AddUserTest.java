@@ -17,13 +17,13 @@ public class AddUserTest {
     @Test
     void addUserWorks() {
 
-        Trader testUser = new Trader("22", "Sepehr", 0);
+        Trader testUser = new Trader(22L, "Sepehr", 0);
 
         // Creating a dummy user
         userRepository.save(testUser);
 
         // Retrieving the user
-        Trader retrievedUser = userRepository.findById("22").orElseThrow();
+        Trader retrievedUser = userRepository.findById(22L).orElseThrow();
         assertEquals(testUser.getFullName(), retrievedUser.getFullName());
 
     }

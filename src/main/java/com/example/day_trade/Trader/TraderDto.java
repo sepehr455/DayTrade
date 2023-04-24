@@ -8,7 +8,7 @@ public class TraderDto {
 
     public final String fullName;
 
-    int currentBalance;
+    public int currentBalance;
 
     public List<UserStockDto> userHoldings;
 
