@@ -41,25 +41,26 @@ public class TraderStockController {
         return ResponseEntity.ok(traderDto);
     }
 
-    //  Method for getting a user's holding
-    @GetMapping("/user/{user_id}/holding")
-    public List<TraderStockDto> getUserHolding(@PathVariable Long user_id) {
-        return traderService.getUserHoldings(user_id)
+    //  Endpoint for getting a user's holding
+    @GetMapping("/user/{userId}/holding")
+    public List<TraderStockDto> getUserHolding(@PathVariable Long userId) {
+        return traderService.getUserHoldings(userId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"))
                 .stream()
                 .map(userStockService::userStockToUserStockDtoConverter).toList();
     }
 
-    // Used for adding stocks
-//    @PostMapping("stock/addTestStocks")
-//    public void addTestStocks(){
-//        stockService.createNewStock("Tesla", 23);
-//        stockService.createNewStock("Apple", 100);
-//        stockService.createNewStock("Amazon", 43);
-//        stockService.createNewStock("Adidas", 88);
-//    }
 
-    // Method for getting info about the stock
+    // Used for adding stocks
+    @PostMapping("stock/addTestStocks")
+    public void addTestStocks(){
+        stockService.createNewStock("Tesla", 23);
+        stockService.createNewStock("Apple", 100);
+        stockService.createNewStock("Amazon", 43);
+        stockService.createNewStock("Adidas", 88);
+    }
+
+    // Endpoint for getting info about the stock
     @GetMapping("/stock/{stockName}")
     public ResponseEntity<StockDto> getStockInfo(@PathVariable String stockName){
         Stock stock = stockService.getStockDetails(stockName)
@@ -68,3 +69,9 @@ public class TraderStockController {
         return ResponseEntity.ok(stockDto);
     }
 }
+
+
+
+// Endpoint for adding money to a user's balance
+//    @PostMapping("/user/{userId}/add_balance")
+//    public

@@ -5,14 +5,14 @@ import com.example.day_trade.Trader.Trader;
 
 public class TraderStockDto {
 
-    private Trader trader;
+    public Trader trader;
 
-    private Stock stock;
+    public Stock stock;
 
-    private int quantity;
+    public int quantity;
 
-    public TraderStockDto(Trader user, Stock stock, int quantity) {
-        this.trader = user;
+    public TraderStockDto(Trader trader, Stock stock, int quantity) {
+        this.trader = trader;
         this.stock = stock;
         this.quantity = quantity;
     }

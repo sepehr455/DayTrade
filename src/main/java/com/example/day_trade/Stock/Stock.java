@@ -21,7 +21,6 @@ public class Stock {
     public Stock() {
     }
 
-
     public Long getStock_id() {
         return stockId;
     }
