@@ -6,9 +6,7 @@ import com.example.day_trade.Trader.Trader;
 public class TraderStockDto {
 
     public Trader trader;
-
     public Stock stock;
-
     public int quantity;
 
     public TraderStockDto(Trader trader, Stock stock, int quantity) {

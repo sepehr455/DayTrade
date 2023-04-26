@@ -20,7 +20,7 @@ public class Trader {
 
     public String fullName;
 
-    int currentBalance;
+    public int currentBalance;
 
     @OneToMany
     public List<TraderStock> userHoldings;

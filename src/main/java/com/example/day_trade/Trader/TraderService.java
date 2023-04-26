@@ -2,9 +2,12 @@ package com.example.day_trade.Trader;
 
 import com.example.day_trade.UserStock.TraderStock;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @SuppressWarnings("WriteOnlyObject")
 @Service
@@ -35,6 +38,13 @@ public class TraderService {
     public Optional<List<TraderStock>> getUserHoldings(Long userId) {
         Optional<Trader> stockOwner = traderRepository.findById(userId);
         return stockOwner.map(traders -> traders.userHoldings);
+    }
+
+    public void addBalance(Long userId, int amount) {
+        Trader currentTrader = traderRepository.findById(userId).
+                orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
+        currentTrader.currentBalance += amount;
+        traderRepository.save(currentTrader);
     }
 
     // Trader to Trader Dto Converter

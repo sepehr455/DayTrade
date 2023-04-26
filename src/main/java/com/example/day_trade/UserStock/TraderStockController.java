@@ -25,7 +25,6 @@ public class TraderStockController {
     final private TraderStockService userStockService;
     final private StockService stockService;
 
-
     public TraderStockController(TraderService userService, TraderStockService userStockService, StockService stockService) {
         this.traderService = userService;
         this.userStockService = userStockService;
@@ -50,6 +49,16 @@ public class TraderStockController {
                 .map(userStockService::userStockToUserStockDtoConverter).toList();
     }
 
+    // Endpoint for adding money to a user's balance
+    @PostMapping("/user/{userId}/add_balance")
+    public ResponseEntity<TraderDto> addBalance(@PathVariable Long userId, @RequestBody String moneyToAdd){
+        traderService.addBalance(userId, Integer.parseInt(moneyToAdd.strip()));
+        Trader currentTrader = traderService.getTraderById(userId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
+        TraderDto traderDto = new TraderDto(currentTrader.getFullName());
+        traderDto.currentBalance = currentTrader.getCurrentBalance();
+        return ResponseEntity.ok(traderDto);
+    }
 
     // Used for adding stocks
     @PostMapping("stock/addTestStocks")
@@ -72,6 +81,4 @@ public class TraderStockController {
 
 
 
-// Endpoint for adding money to a user's balance
-//    @PostMapping("/user/{userId}/add_balance")
-//    public
+
