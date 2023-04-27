@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @SuppressWarnings("DuplicatedCode")
@@ -71,6 +73,11 @@ public class TraderStockService {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "The user does not own any shares of the stock"));
         traderStock.quantity -= quantity;
         traderStockRepository.save(traderStock);
+
+        if (traderStock.quantity == 0){
+            traderStockRepository.deleteAllById(Collections.singleton(traderStock.getId()));
+        }
+
         traderService.addBalance(currentTrader.userId, totalCost);
         ResponseEntity.status(HttpStatus.OK).body("Successfully bought the stock shares");
     }
