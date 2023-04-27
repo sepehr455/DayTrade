@@ -1,11 +1,9 @@
-package com.example.day_trade.DBTest;
+package com.example.day_trade.UserStock;
 
 import com.example.day_trade.Stock.Stock;
 import com.example.day_trade.Stock.StockRepository;
 import com.example.day_trade.Trader.Trader;
 import com.example.day_trade.Trader.TraderRepository;
-import com.example.day_trade.UserStock.TraderStock;
-import com.example.day_trade.UserStock.TraderStockRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
