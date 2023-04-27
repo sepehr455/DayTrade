@@ -24,7 +24,7 @@ public class existsByTraderUserIdAndStockStockIdTest {
     void existsByTraderUserIdAndStockStockId() {
 
         Trader testTrader = new Trader("sepehr", 22);
-        Stock testStock = new Stock( "testStock", 22);
+        Stock testStock = new Stock("testStock", 22);
 
         traderRepository.save(testTrader);
         stockRepository.save(testStock);

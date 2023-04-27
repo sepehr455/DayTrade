@@ -21,7 +21,7 @@ public class SubtractBalanceTest {
 
     @Test
     void subtractBalanceWorks() {
-        Trader testTrader = new Trader( "Sepehr", 22);
+        Trader testTrader = new Trader("Sepehr", 22);
         traderRepository.save(testTrader);
 
         traderService.subtractBalance(testTrader.getUserId(), 18);

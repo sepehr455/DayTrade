@@ -31,10 +31,9 @@ public class TraderStock {
     public int quantity;
 
     public TraderStock() {
-
     }
 
-    public void addToQuantity(int amount){
+    public void addToQuantity(int amount) {
         this.quantity += amount;
     }
 
@@ -58,7 +57,6 @@ public class TraderStock {
         this.stock = stock;
         this.quantity = quantity;
     }
-
 
     public Stock getStock() {
         return stock;

@@ -21,7 +21,7 @@ public class AddBalanceTest {
 
     @Test
     void addBalanceWorks() {
-        Trader testTrader = new Trader( "Sepehr", 22);
+        Trader testTrader = new Trader("Sepehr", 22);
         traderRepository.save(testTrader);
 
         traderService.addBalance(testTrader.getUserId(), 18);

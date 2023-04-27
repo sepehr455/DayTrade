@@ -85,6 +85,7 @@ public class TraderStockController {
         traderStockService.buyStock(userId, stockName, stockQuantity);
     }
 
+    // Endpoint for selling stocks
     @PostMapping("user/{userId}/holding/{stockName}/sell")
     public void sellStocks(@PathVariable String stockName, @PathVariable Long userId, @RequestBody String quantity){
         int stockQuantity = Integer.parseInt(quantity.strip());

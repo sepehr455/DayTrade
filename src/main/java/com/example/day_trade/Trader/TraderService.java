@@ -15,11 +15,9 @@ public class TraderService {
 
     private final TraderRepository traderRepository;
 
-
     public TraderService(TraderRepository traderRepository) {
         this.traderRepository = traderRepository;
     }
-
 
     // Method for finding a trader with the given userID
     public Optional<Trader> getTraderById(Long userId) {
@@ -54,12 +52,4 @@ public class TraderService {
         currentTrader.currentBalance -= amount;
         traderRepository.save(currentTrader);
     }
-
-    // Trader to Trader Dto Converter
-//    public Optional<TraderDto> TraderToTraderDtoConverter(Trader trader){
-//        TraderDto convertedTrader = new TraderDto(trader.fullName);
-//        convertedTrader.currentBalance = trader.currentBalance;
-//
-//    }
-
 }
