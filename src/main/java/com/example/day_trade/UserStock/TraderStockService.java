@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+@SuppressWarnings("DuplicatedCode")
 @Service
 public class TraderStockService {
 
@@ -18,17 +19,17 @@ public class TraderStockService {
     private final StockService stockService;
     private final TraderService traderService;
 
-    public TraderStockService(TraderStockRepository userStockRepository, StockService stockService, TraderService traderService){
+    public TraderStockService(TraderStockRepository userStockRepository, StockService stockService, TraderService traderService) {
         this.traderStockRepository = userStockRepository;
         this.stockService = stockService;
         this.traderService = traderService;
     }
 
-    public TraderStockDto userStockToUserStockDtoConverter (TraderStock traderStock){
+    public TraderStockDto userStockToUserStockDtoConverter(TraderStock traderStock) {
         return new TraderStockDto(traderStock.getTrader(), traderStock.getStock(), traderStock.getQuantity());
     }
 
-    public void buyStock(Long userId, String stockName, int quantity){
+    public void buyStock(Long userId, String stockName, int quantity) {
         Long currentStockId = stockService.getStockId(stockName);
 
         // Getting the current trader and the stock
@@ -42,23 +43,35 @@ public class TraderStockService {
         int userBalance = currentTrader.getCurrentBalance();
 
         // Checking if the user has enough money
-        if (userBalance < totalCost){
+        if (userBalance < totalCost) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The user does not have enough money to buy the stock ");
-        }else{
-            // Case 1: the user already has a share of the stock
-            if(traderStockRepository.existsByTraderUserIdAndStockStockId(userId, currentStockId)){
-                TraderStock traderStock = traderStockRepository.findByTraderUserIdAndStockStockId(userId, currentStockId)
-                        .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No combination of user and stock was found"));
-                traderStock.quantity += quantity;
-                traderStockRepository.save(traderStock);
-
-            // Case 2: the user does not have a share of the stock
-            } else{
-                TraderStock traderStock = new TraderStock(currentTrader,currentStock, quantity);
-                traderStockRepository.save(traderStock);
-            }
+        } else {
+            TraderStock traderStock = traderStockRepository.findByTraderUserIdAndStockStockId(userId, currentStockId)
+                    .orElse(new TraderStock(currentTrader, currentStock, 0));
+            traderStock.quantity += quantity;
+            traderStockRepository.save(traderStock);
             traderService.subtractBalance(currentTrader.userId, totalCost);
         }
+        ResponseEntity.status(HttpStatus.OK).body("Successfully bought the stock shares");
+    }
+
+    public void sellStocks(Long userId, String stockName, int quantity) {
+        Long currentStockId = stockService.getStockId(stockName);
+
+        // Getting the current trader and the stock
+        Trader currentTrader = traderService.getTraderById(userId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
+        Stock currentStock = stockService.getStockById(currentStockId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the stock with the given id"));
+
+        // Getting the total cost for the amount of shares to be purchased
+        int totalCost = currentStock.getStockPrice() * quantity;
+
+        TraderStock traderStock = traderStockRepository.findByTraderUserIdAndStockStockId(userId, currentStockId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "The user does not own any shares of the stock"));
+        traderStock.quantity -= quantity;
+        traderStockRepository.save(traderStock);
+        traderService.addBalance(currentTrader.userId, totalCost);
         ResponseEntity.status(HttpStatus.OK).body("Successfully bought the stock shares");
     }
 
