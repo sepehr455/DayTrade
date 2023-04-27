@@ -31,15 +31,14 @@ public class TraderStockService {
     public void buyStock(Long userId, String stockName, int quantity){
         Long currentStockId = stockService.getStockId(stockName);
 
+        // Getting the current trader and the stock
         Trader currentTrader = traderService.getTraderById(userId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
-
         Stock currentStock = stockService.getStockById(currentStockId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the stock with the given id"));
 
         // Getting the total cost for the amount of shares to be purchased
         int totalCost = currentStock.getStockPrice() * quantity;
-
         int userBalance = currentTrader.getCurrentBalance();
 
         // Checking if the user has enough money
@@ -47,11 +46,13 @@ public class TraderStockService {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The user does not have enough money to buy the stock ");
         }else{
             // Case 1: the user already has a share of the stock
-            if(traderStockRepository.existsByTraderUserIdAndStockStockId(currentStockId, userId)){
+            if(traderStockRepository.existsByTraderUserIdAndStockStockId(userId, currentStockId)){
                 TraderStock traderStock = traderStockRepository.findByTraderUserIdAndStockStockId(userId, currentStockId)
                         .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No combination of user and stock was found"));
                 traderStock.quantity += quantity;
                 traderStockRepository.save(traderStock);
+
+            // Case 2: the user does not have a share of the stock
             } else{
                 TraderStock traderStock = new TraderStock(currentTrader,currentStock, quantity);
                 traderStockRepository.save(traderStock);
