@@ -35,6 +35,11 @@ public class Trader {
         this.currentBalance = currentBalance;
     }
 
+    public Trader(String fullName, int currentBalance) {
+        this.fullName = fullName;
+        this.currentBalance = currentBalance;
+    }
+
     public Long getUserId() {
         return userId;
     }

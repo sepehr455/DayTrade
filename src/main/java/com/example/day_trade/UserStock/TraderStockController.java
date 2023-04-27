@@ -22,12 +22,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class TraderStockController {
 
     final private TraderService traderService;
-    final private TraderStockService userStockService;
+    final private TraderStockService traderStockService;
     final private StockService stockService;
 
     public TraderStockController(TraderService userService, TraderStockService userStockService, StockService stockService) {
         this.traderService = userService;
-        this.userStockService = userStockService;
+        this.traderStockService = userStockService;
         this.stockService = stockService;
     }
 
@@ -46,7 +46,7 @@ public class TraderStockController {
         return traderService.getUserHoldings(userId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"))
                 .stream()
-                .map(userStockService::userStockToUserStockDtoConverter).toList();
+                .map(traderStockService::userStockToUserStockDtoConverter).toList();
     }
 
     // Endpoint for adding money to a user's balance
@@ -77,6 +77,16 @@ public class TraderStockController {
         StockDto stockDto = stockService.stockToStockDtoConverter(stock);
         return ResponseEntity.ok(stockDto);
     }
+
+    // Endpoint for buying stocks
+    @PostMapping("user/{userId}/holding/{stockName}/buy")
+    public void buyStock(@PathVariable String stockName, @PathVariable Long userId, @RequestBody String quantity){
+        int stockQuantity = Integer.parseInt(quantity.strip());
+        traderStockService.buyStock(userId, stockName, stockQuantity);
+    }
+
+
+//    @PostMapping("user/{userId}/holding/{stockName}/sell")
 }
 
 

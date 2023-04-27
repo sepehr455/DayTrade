@@ -28,7 +28,15 @@ public class TraderStock {
     @JoinColumn(name = "stockId", referencedColumnName = "stockId")
     private Stock stock;
 
-    private int quantity;
+    public int quantity;
+
+    public TraderStock() {
+
+    }
+
+    public void addToQuantity(int amount){
+        this.quantity += amount;
+    }
 
     public Long getId() {
         return id;
@@ -37,6 +45,20 @@ public class TraderStock {
     public Trader getTrader() {
         return trader;
     }
+
+    public TraderStock(Trader trader, Stock stock, int quantity) {
+        this.trader = trader;
+        this.stock = stock;
+        this.quantity = quantity;
+    }
+
+    public TraderStock(Long id, Trader trader, Stock stock, int quantity) {
+        this.id = id;
+        this.trader = trader;
+        this.stock = stock;
+        this.quantity = quantity;
+    }
+
 
     public Stock getStock() {
         return stock;

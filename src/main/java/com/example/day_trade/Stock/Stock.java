@@ -37,4 +37,10 @@ public class Stock {
         this.stockName = stockName;
         this.stockPrice = stockPrice;
     }
+
+    public Stock(Long stockId, String stockName, int stockPrice) {
+        this.stockId = stockId;
+        this.stockName = stockName;
+        this.stockPrice = stockPrice;
+    }
 }

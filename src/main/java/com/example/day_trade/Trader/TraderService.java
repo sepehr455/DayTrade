@@ -47,6 +47,14 @@ public class TraderService {
         traderRepository.save(currentTrader);
     }
 
+    // Method for subtracting from the balance that is used for when the user purchases a stock
+    public void subtractBalance(Long userId, int amount) {
+        Trader currentTrader = traderRepository.findById(userId).
+                orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
+        currentTrader.currentBalance -= amount;
+        traderRepository.save(currentTrader);
+    }
+
     // Trader to Trader Dto Converter
 //    public Optional<TraderDto> TraderToTraderDtoConverter(Trader trader){
 //        TraderDto convertedTrader = new TraderDto(trader.fullName);
