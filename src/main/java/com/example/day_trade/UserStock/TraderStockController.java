@@ -85,8 +85,11 @@ public class TraderStockController {
         traderStockService.buyStock(userId, stockName, stockQuantity);
     }
 
-
-//    @PostMapping("user/{userId}/holding/{stockName}/sell")
+    @PostMapping("user/{userId}/holding/{stockName}/sell")
+    public void sellStocks(@PathVariable String stockName, @PathVariable Long userId, @RequestBody String quantity){
+        int stockQuantity = Integer.parseInt(quantity.strip());
+        traderStockService.sellStocks(userId, stockName, stockQuantity);
+    }
 }
 
 
