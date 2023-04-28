@@ -13,7 +13,6 @@ import java.util.Collections;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-@SuppressWarnings("DuplicatedCode")
 @Service
 public class TraderStockService {
 
@@ -65,12 +64,12 @@ public class TraderStockService {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
         Stock currentStock = stockService.getStockById(currentStockId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the stock with the given id"));
+        TraderStock traderStock = traderStockRepository.findByTraderUserIdAndStockStockId(userId, currentStockId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "The user does not own any shares of the stock"));
 
         // Getting the total cost for the amount of shares to be purchased
         int totalCost = currentStock.getStockPrice() * quantity;
 
-        TraderStock traderStock = traderStockRepository.findByTraderUserIdAndStockStockId(userId, currentStockId)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "The user does not own any shares of the stock"));
         traderStock.quantity -= quantity;
         traderStockRepository.save(traderStock);
 

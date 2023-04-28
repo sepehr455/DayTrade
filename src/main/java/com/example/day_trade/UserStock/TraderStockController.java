@@ -55,8 +55,7 @@ public class TraderStockController {
         traderService.addBalance(userId, Integer.parseInt(moneyToAdd.strip()));
         Trader currentTrader = traderService.getTraderById(userId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
-        TraderDto traderDto = new TraderDto(currentTrader.getFullName());
-        traderDto.currentBalance = currentTrader.getCurrentBalance();
+        TraderDto traderDto = new TraderDto(currentTrader.getFullName(), currentTrader.getCurrentBalance());
         return ResponseEntity.ok(traderDto);
     }
 

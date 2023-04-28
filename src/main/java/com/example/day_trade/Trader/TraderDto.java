@@ -6,14 +6,23 @@ import java.util.List;
 
 public class TraderDto {
 
-    public final String fullName;
+    private final String fullName;
 
-    public int currentBalance;
+    private int currentBalance;
 
-    public List<TraderStockDto> userHoldings;
+    private List<TraderStockDto> userHoldings;
 
     public TraderDto(String fullName) {
         this.fullName = fullName;
+    }
+
+    public TraderDto(String fullName, int currentBalance) {
+        this.fullName = fullName;
+        this.currentBalance = currentBalance;
+    }
+
+    public List<TraderStockDto> getUserHoldings() {
+        return userHoldings;
     }
 
     public void setCurrentBalance(int currentBalance) {

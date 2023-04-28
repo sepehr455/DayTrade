@@ -5,13 +5,25 @@ import com.example.day_trade.Trader.Trader;
 
 public class TraderStockDto {
 
-    public Trader trader;
-    public Stock stock;
-    public int quantity;
+    private final Trader trader;
+    private final Stock stock;
+    private final int quantity;
 
     public TraderStockDto(Trader trader, Stock stock, int quantity) {
         this.trader = trader;
         this.stock = stock;
         this.quantity = quantity;
+    }
+
+    public Trader getTrader() {
+        return trader;
+    }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 }
