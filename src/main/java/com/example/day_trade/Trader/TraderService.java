@@ -44,7 +44,10 @@ public class TraderService {
     public void subtractBalance(Long userId, int amount) {
         Trader currentTrader = traderRepository.findById(userId).
                 orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
-        currentTrader.currentBalance -= amount;
-        traderRepository.save(currentTrader);
+
+        if(currentTrader.currentBalance >= amount){
+            currentTrader.currentBalance -= amount;
+            traderRepository.save(currentTrader);
+        }
     }
 }
