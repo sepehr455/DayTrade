@@ -59,15 +59,6 @@ public class TraderStockController {
         return ResponseEntity.ok(traderDto);
     }
 
-    // Used for adding stocks
-    @PostMapping("stock/addTestStocks")
-    public void addTestStocks(){
-        stockService.createNewStock("Tesla", 23);
-        stockService.createNewStock("Apple", 100);
-        stockService.createNewStock("Amazon", 43);
-        stockService.createNewStock("Adidas", 88);
-    }
-
     // Endpoint for getting info about the stock
     @GetMapping("/stock/{stockName}")
     public ResponseEntity<StockDto> getStockInfo(@PathVariable String stockName){
