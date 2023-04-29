@@ -16,26 +16,26 @@ public class StockService {
         this.stockRepository = stockRepository;
     }
 
-    // Method for creating a stock (mainly used to create mock stocks)
-    public void createNewStock(String stockName, int stockPrice){
+    public Optional<Stock> getStockDetails(String stockName) {
+        return stockRepository.findByStockName(stockName);
+    }
+
+    public Optional<Stock> getStockById(Long stockId) {
+        return stockRepository.findById(stockId);
+    }
+
+    public void createNewStock(String stockName, int stockPrice) {
         Stock newStock = new Stock(stockName, stockPrice);
         stockRepository.save(newStock);
     }
 
-    // Method for returning the stock with the given name
-    public Optional<Stock> getStockDetails(String stockName){
-        return stockRepository.findByStockName(stockName);
-    }
-
-    public Optional<Stock> getStockById(Long stockId){ return stockRepository.findById(stockId); }
-
-    public Long getStockId(String stockName){
+    public Long getStockId(String stockName) {
         Stock currentStock = stockRepository.findByStockName(stockName)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No stock found with the given name"));
         return currentStock.stockId;
     }
 
-    public StockDto stockToStockDtoConverter (Stock currentStock){
+    public StockDto stockToStockDtoConverter(Stock currentStock) {
         return new StockDto(currentStock.getStockName(), currentStock.getStockPrice());
     }
 

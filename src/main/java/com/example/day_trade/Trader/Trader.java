@@ -25,8 +25,7 @@ public class Trader {
     @OneToMany
     public List<TraderStock> userHoldings;
 
-    public Trader(){
-
+    public Trader() {
     }
 
     public Trader(Long userId, String fullName, int currentBalance) {
@@ -42,10 +41,6 @@ public class Trader {
 
     public Long getUserId() {
         return userId;
-    }
-
-    public void setUserId(Long user_id) {
-        this.userId = user_id;
     }
 
     public String getFullName() {

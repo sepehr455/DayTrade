@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-@SuppressWarnings("WriteOnlyObject")
 @Service
 public class TraderService {
 
@@ -19,14 +18,11 @@ public class TraderService {
         this.traderRepository = traderRepository;
     }
 
-    // Method for finding a trader with the given userID
     public Optional<Trader> getTraderById(Long userId) {
         return traderRepository.findById(userId);
     }
 
-    // A method that creates a new trader with the given username
     public Trader signup(String newUserName) {
-
         Trader newUser = new Trader();
         newUser.setFullName(newUserName);
         newUser.setCurrentBalance(0);
@@ -45,7 +41,6 @@ public class TraderService {
         traderRepository.save(currentTrader);
     }
 
-    // Method for subtracting from the balance that is used for when the user purchases a stock
     public void subtractBalance(Long userId, int amount) {
         Trader currentTrader = traderRepository.findById(userId).
                 orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));

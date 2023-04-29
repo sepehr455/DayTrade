@@ -21,15 +21,7 @@ public class TraderDto {
         this.currentBalance = currentBalance;
     }
 
-    public List<TraderStockDto> getUserHoldings() {
-        return userHoldings;
-    }
-
     public void setCurrentBalance(int currentBalance) {
         this.currentBalance = currentBalance;
-    }
-
-    public void setUserHoldings(List<TraderStockDto> userHoldings) {
-        this.userHoldings = userHoldings;
     }
 }

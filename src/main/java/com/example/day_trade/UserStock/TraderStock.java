@@ -33,10 +33,6 @@ public class TraderStock {
     public TraderStock() {
     }
 
-    public void addToQuantity(int amount) {
-        this.quantity += amount;
-    }
-
     public Long getId() {
         return id;
     }
@@ -46,13 +42,6 @@ public class TraderStock {
     }
 
     public TraderStock(Trader trader, Stock stock, int quantity) {
-        this.trader = trader;
-        this.stock = stock;
-        this.quantity = quantity;
-    }
-
-    public TraderStock(Long id, Trader trader, Stock stock, int quantity) {
-        this.id = id;
         this.trader = trader;
         this.stock = stock;
         this.quantity = quantity;
@@ -72,9 +61,5 @@ public class TraderStock {
 
     public void setStock(Stock stock) {
         this.stock = stock;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 }

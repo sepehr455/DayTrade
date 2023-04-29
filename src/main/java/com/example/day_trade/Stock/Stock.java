@@ -14,9 +14,8 @@ public class Stock {
     @Column(name = "stockId")
     Long stockId;
 
-    String stockName;
-
-    int stockPrice;
+    public String stockName;
+    public int stockPrice;
 
     public Stock() {
     }
