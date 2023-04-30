@@ -25,7 +25,12 @@ public class TraderDto {
         this.currentBalance = currentBalance;
     }
 
-    public void setCurrentBalance(int currentBalance) {
-        this.currentBalance = currentBalance;
+    public TraderDto(Trader trader){
+        this.fullName = trader.getFullName();
+        this.currentBalance = trader.getCurrentBalance();
+    }
+
+    public int getCurrentBalance() {
+        return currentBalance;
     }
 }

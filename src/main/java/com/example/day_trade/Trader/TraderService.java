@@ -34,11 +34,11 @@ public class TraderService {
         return stockOwner.map(Trader::getUserHoldings);
     }
 
-    public void addBalance(Long userId, int amount) {
-        Trader currentTrader = traderRepository.findById(userId).
-                orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
-        currentTrader.addToBalance(amount); ;
-        traderRepository.save(currentTrader);
+    public Optional<Trader> addBalance(Long userId, int amount) {
+        Optional<Trader> currentTrader = traderRepository.findById(userId);
+        currentTrader.map(trader -> trader.addToBalance(amount));
+        currentTrader.map(traderRepository::save);
+        return currentTrader;
     }
 
     public void subtractBalance(Long userId, int amount) {

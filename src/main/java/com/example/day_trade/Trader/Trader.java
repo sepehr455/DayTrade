@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class Trader {
@@ -62,8 +63,9 @@ public class Trader {
         return userHoldings;
     }
 
-    public void addToBalance(int amount){
+    public Optional<Trader> addToBalance(int amount){
         this.currentBalance += amount;
+        return Optional.of(this);
     }
 
     public void subtractFromBalance(int amount){
