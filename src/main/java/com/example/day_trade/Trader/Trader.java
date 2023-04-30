@@ -19,11 +19,10 @@ public class Trader {
     private Long userId;
 
     private String fullName;
-
     private int currentBalance;
 
     @OneToMany
-    public List<TraderStock> userHoldings;
+    private List<TraderStock> userHoldings;
 
     public Trader() {
     }
@@ -57,6 +56,10 @@ public class Trader {
 
     public void setCurrentBalance(int currentBalance) {
         this.currentBalance = currentBalance;
+    }
+
+    public List<TraderStock> getUserHoldings() {
+        return userHoldings;
     }
 
     public void addToBalance(int amount){

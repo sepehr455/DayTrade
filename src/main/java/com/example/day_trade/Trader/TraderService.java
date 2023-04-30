@@ -31,7 +31,7 @@ public class TraderService {
 
     public Optional<List<TraderStock>> getUserHoldings(Long userId) {
         Optional<Trader> stockOwner = traderRepository.findById(userId);
-        return stockOwner.map(traders -> traders.userHoldings);
+        return stockOwner.map(Trader::getUserHoldings);
     }
 
     public void addBalance(Long userId, int amount) {
