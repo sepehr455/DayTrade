@@ -16,7 +16,7 @@ public class Trader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userId")
-    private Long userId;
+    Long userId;
 
     private String fullName;
     private int currentBalance;

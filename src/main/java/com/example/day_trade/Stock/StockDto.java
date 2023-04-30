@@ -3,7 +3,6 @@ package com.example.day_trade.Stock;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StockDto {
-
     @JsonProperty("stock_name")
     private final String stockName;
 
