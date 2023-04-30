@@ -25,6 +25,6 @@ public class AddBalanceTest {
         traderRepository.save(testTrader);
 
         traderService.addBalance(testTrader.getUserId(), 18);
-        assertEquals(testTrader.currentBalance, 40);
+        assertEquals(testTrader.getCurrentBalance(), 40);
     }
 }

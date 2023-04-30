@@ -25,7 +25,7 @@ public class SubtractBalanceTest {
         traderRepository.save(testTrader);
 
         traderService.subtractBalance(testTrader.getUserId(), 18);
-        assertEquals(testTrader.currentBalance, 4);
+        assertEquals(testTrader.getCurrentBalance(), 4);
     }
 
     @Test
@@ -34,6 +34,6 @@ public class SubtractBalanceTest {
         traderRepository.save(testTrader);
 
         traderService.subtractBalance(testTrader.getUserId(), 23);
-        assertEquals(testTrader.currentBalance, 22);
+        assertEquals(testTrader.getCurrentBalance(), 22);
     }
 }

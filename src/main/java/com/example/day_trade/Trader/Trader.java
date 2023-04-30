@@ -16,11 +16,11 @@ public class Trader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userId")
-    public Long userId;
+    private Long userId;
 
-    public String fullName;
+    private String fullName;
 
-    public int currentBalance;
+    private int currentBalance;
 
     @OneToMany
     public List<TraderStock> userHoldings;
@@ -57,5 +57,13 @@ public class Trader {
 
     public void setCurrentBalance(int currentBalance) {
         this.currentBalance = currentBalance;
+    }
+
+    public void addToBalance(int amount){
+        this.currentBalance += amount;
+    }
+
+    public void subtractFromBalance(int amount){
+        this.currentBalance -= amount;
     }
 }

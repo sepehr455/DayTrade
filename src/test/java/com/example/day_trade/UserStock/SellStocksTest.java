@@ -65,6 +65,6 @@ public class SellStocksTest {
                 .orElseThrow(() -> new AssertionError("Failed to retrieve updated trader"));
 
         assertEquals(updatedTraderStock.get().getQuantity(), 1);
-        assertEquals(updatedTrader.currentBalance, 400);
+        assertEquals(updatedTrader.getCurrentBalance(), 400);
     }
 }

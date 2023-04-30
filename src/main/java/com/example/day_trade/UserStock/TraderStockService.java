@@ -30,7 +30,12 @@ public class TraderStockService {
         return new TraderStockDto(traderStock.getTrader(), traderStock.getStock(), traderStock.getQuantity());
     }
 
-    private TraderStock getTraderStock(Long userId, String stockName) {
+    public void updateQuantity(int quantity, TraderStock traderStock, int sign) {
+        traderStock.quantity += (sign * quantity);
+        traderStockRepository.save(traderStock);
+    }
+
+    public TraderStock getTraderStock(Long userId, String stockName) {
         Long currentStockId = stockService.getStockId(stockName);
 
         Trader currentTrader = traderService.getTraderById(userId)
@@ -51,18 +56,17 @@ public class TraderStockService {
         if (userBalance < totalCost) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The user does not have enough money to buy the stock ");
         } else {
-            traderStock.quantity += quantity;
-            traderStockRepository.save(traderStock);
-            traderService.subtractBalance(traderStock.getTrader().userId, totalCost);
+            updateQuantity(quantity, traderStock, 1);
+            traderService.subtractBalance(traderStock.getTrader().getUserId(), totalCost);
         }
 
         ResponseEntity.status(HttpStatus.OK).body("Successfully bought the stock shares");
     }
 
+
     public void sellStocks(Long userId, String stockName, int quantity) {
         TraderStock traderStock = getTraderStock(userId, stockName);
-        traderStock.quantity -= quantity;
-        traderStockRepository.save(traderStock);
+        updateQuantity(quantity, traderStock, -1);
 
         if (traderStock.getQuantity() == 0){
             traderStockRepository.deleteAllById(Collections.singleton(traderStock.getId()));

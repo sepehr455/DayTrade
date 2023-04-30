@@ -65,9 +65,9 @@ class BuyStockTest {
         TraderStock testTraderStock = testTraderStockOptional.get();
 
         assertEquals(testTraderStock.getQuantity(), 4);
-        assertEquals(testTraderStock.getTrader().userId, testTrader.getUserId());
+        assertEquals(testTraderStock.getTrader().getUserId(), testTrader.getUserId());
         assertEquals(testTraderStock.getStock().getStock_id(), testStock.getStock_id());
-        assertEquals(updatedTrader.currentBalance, 0);
+        assertEquals(updatedTrader.getCurrentBalance(), 0);
     }
 
     // If the user already owns a share of the stock
@@ -88,7 +88,7 @@ class BuyStockTest {
                 .orElseThrow(() -> new AssertionError("Failed to retrieve updated trader"));
 
         assertEquals(updatedTraderStock.get().getQuantity(), 6);
-        assertEquals(updatedTrader.currentBalance, 0);
+        assertEquals(updatedTrader.getCurrentBalance(), 0);
     }
 
 }
