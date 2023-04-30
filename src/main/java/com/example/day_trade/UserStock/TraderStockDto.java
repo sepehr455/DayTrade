@@ -23,4 +23,7 @@ public class TraderStockDto {
         return stock;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
 }

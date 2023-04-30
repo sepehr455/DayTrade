@@ -3,8 +3,6 @@ package com.example.day_trade.UserStock;
 import com.example.day_trade.Stock.Stock;
 import com.example.day_trade.Stock.StockDto;
 import com.example.day_trade.Stock.StockService;
-import com.example.day_trade.Trader.Trader;
-import com.example.day_trade.Trader.TraderDto;
 import com.example.day_trade.Trader.TraderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,23 +19,14 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RestController
 public class TraderStockController {
 
-    final private TraderService traderService;
-    final private TraderStockService traderStockService;
-    final private StockService stockService;
+    private final TraderService traderService;
+    private final TraderStockService traderStockService;
+    private final StockService stockService;
 
     public TraderStockController(TraderService userService, TraderStockService userStockService, StockService stockService) {
         this.traderService = userService;
         this.traderStockService = userStockService;
         this.stockService = stockService;
-    }
-
-    // Adding a new user
-    @PostMapping("/user/add")
-    public ResponseEntity<TraderDto> createUser(@RequestBody String newUserName) {
-        Trader signedupTrader = traderService.signup(newUserName);
-        TraderDto traderDto = new TraderDto(signedupTrader.getFullName());
-        traderDto.setCurrentBalance(signedupTrader.getCurrentBalance());
-        return ResponseEntity.ok(traderDto);
     }
 
     //  Endpoint for getting a user's holding
@@ -49,15 +38,7 @@ public class TraderStockController {
                 .map(traderStockService::userStockToUserStockDtoConverter).toList();
     }
 
-    // Endpoint for adding money to a user's balance
-    @PostMapping("/user/{userId}/add_balance")
-    public ResponseEntity<TraderDto> addBalance(@PathVariable Long userId, @RequestBody String moneyToAdd){
-        traderService.addBalance(userId, Integer.parseInt(moneyToAdd.strip()));
-        Trader currentTrader = traderService.getTraderById(userId)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
-        TraderDto traderDto = new TraderDto(currentTrader.getFullName(), currentTrader.getCurrentBalance());
-        return ResponseEntity.ok(traderDto);
-    }
+
 
     // Endpoint for getting info about the stock
     @GetMapping("/stock/{stockName}")

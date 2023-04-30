@@ -8,4 +8,12 @@ public class StockDto {
         this.stockName = stockName;
         this.stockPrice = stockPrice;
     }
+
+    public String getStockName() {
+        return stockName;
+    }
+
+    public int getStockPrice() {
+        return stockPrice;
+    }
 }
