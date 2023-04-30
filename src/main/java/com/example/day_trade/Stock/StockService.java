@@ -32,7 +32,7 @@ public class StockService {
     public Long getStockId(String stockName) {
         Stock currentStock = stockRepository.findByStockName(stockName)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No stock found with the given name"));
-        return currentStock.stockId;
+        return currentStock.getStock_id();
     }
 
     public StockDto stockToStockDtoConverter(Stock currentStock) {

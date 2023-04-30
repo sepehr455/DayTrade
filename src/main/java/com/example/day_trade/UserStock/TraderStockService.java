@@ -31,7 +31,7 @@ public class TraderStockService {
     }
 
     public void updateQuantity(int quantity, TraderStock traderStock, int sign) {
-        traderStock.quantity += (sign * quantity);
+        traderStock.addToQuantity(sign * quantity);
         traderStockRepository.save(traderStock);
     }
 

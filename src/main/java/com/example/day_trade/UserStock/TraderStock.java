@@ -28,7 +28,7 @@ public class TraderStock {
     @JoinColumn(name = "stockId", referencedColumnName = "stockId")
     private Stock stock;
 
-    public int quantity;
+    private int quantity;
 
     public TraderStock() {
     }
@@ -61,5 +61,9 @@ public class TraderStock {
 
     public void setStock(Stock stock) {
         this.stock = stock;
+    }
+
+    public void addToQuantity(int amount){
+        this.quantity += amount;
     }
 }

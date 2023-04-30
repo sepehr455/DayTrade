@@ -12,10 +12,10 @@ public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stockId")
-    Long stockId;
+    private Long stockId;
 
-    public String stockName;
-    public int stockPrice;
+    private String stockName;
+    private int stockPrice;
 
     public Stock() {
     }
