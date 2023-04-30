@@ -11,7 +11,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 public class TraderController {
-
     private final TraderService traderService;
 
     public TraderController(TraderService traderService){

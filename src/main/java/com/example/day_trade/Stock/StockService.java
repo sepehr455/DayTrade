@@ -25,7 +25,7 @@ public class StockService {
     }
 
     public void createNewStock(String stockName, int stockPrice) {
-        Stock newStock = new Stock(stockName, stockPrice);
+        Stock newStock = new Stock(stockName.toLowerCase(), stockPrice);
         stockRepository.save(newStock);
     }
 
