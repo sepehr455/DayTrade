@@ -24,6 +24,10 @@ public class StockService {
         return stockRepository.findById(stockId);
     }
 
+    public Optional<Stock> getStockByName(String stockName){
+        return stockRepository.findByStockName(stockName);
+    }
+
     public void createNewStock(String stockName, int stockPrice) {
         Stock newStock = new Stock(stockName.toLowerCase(), stockPrice);
         stockRepository.save(newStock);
@@ -34,6 +38,8 @@ public class StockService {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No stock found with the given name"));
         return currentStock.getStock_id();
     }
+
+
 
     public StockDto stockToStockDtoConverter(Stock currentStock) {
         return new StockDto(currentStock.getStockName(), currentStock.getStockPrice());
