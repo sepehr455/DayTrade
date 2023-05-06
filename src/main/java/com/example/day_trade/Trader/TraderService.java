@@ -2,12 +2,9 @@ package com.example.day_trade.Trader;
 
 import com.example.day_trade.UserStock.TraderStock;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class TraderService {
@@ -41,13 +38,10 @@ public class TraderService {
         return currentTrader;
     }
 
-    public void subtractBalance(Long userId, int amount) {
-        Trader currentTrader = traderRepository.findById(userId).
-                orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
-
-        if(currentTrader.getCurrentBalance() >= amount){
-            currentTrader.subtractFromBalance(amount);
-            traderRepository.save(currentTrader);
-        }
+    public Optional<Trader> subtractBalance(Long userId, int amount) {
+        Optional<Trader> currentTrader = traderRepository.findById(userId);
+        currentTrader.map(trader -> trader.subtractFromBalance(amount));
+        currentTrader.map(traderRepository::save);
+        return currentTrader;
     }
 }

@@ -68,7 +68,8 @@ public class Trader {
         return Optional.of(this);
     }
 
-    public void subtractFromBalance(int amount){
+    public Optional<Trader> subtractFromBalance(int amount){
         this.currentBalance -= amount;
+        return Optional.of(this);
     }
 }
