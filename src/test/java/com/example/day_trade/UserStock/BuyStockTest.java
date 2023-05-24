@@ -55,7 +55,7 @@ class BuyStockTest {
         traderRepository.save(testTrader);
         stockRepository.save(testStock);
 
-        traderStockService.buyStock(testTrader.getUserId(), testStock.getStockName(), 4);
+        traderStockService.buyStock(testTrader, testStock, 4);
 
         Optional<TraderStock> testTraderStockOptional = traderStockRepository
                 .findByTraderUserIdAndStockStockId(testTrader.getUserId(), testStock.getStock_id());
@@ -79,7 +79,7 @@ class BuyStockTest {
         // Creating a new instance of the user with the stock
         TraderStock testTraderStock = new TraderStock(testTrader, testStock, 2);
         traderStockRepository.save(testTraderStock);
-        traderStockService.buyStock(testTrader.getUserId(), testStock.getStockName(), 4);
+        traderStockService.buyStock(testTrader, testStock, 4);
 
         // Getting the updated version of the Trader and TraderStock
         Optional<TraderStock> updatedTraderStock = traderStockRepository

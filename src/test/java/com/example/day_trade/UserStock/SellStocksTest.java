@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
 public class SellStocksTest {
@@ -33,6 +33,7 @@ public class SellStocksTest {
     private TraderStockService traderStockService;
     private Trader testTrader;
     private Stock testStock;
+    private TraderStock testTraderStock;
 
     @BeforeEach
     void setup() {
@@ -56,7 +57,8 @@ public class SellStocksTest {
         // Creating a new instance of the user with the stock
         TraderStock testTraderStock = new TraderStock(testTrader, testStock, 5);
         traderStockRepository.save(testTraderStock);
-        traderStockService.sellStocks(testTrader.getUserId(), testStock.getStockName(), 4);
+
+        traderStockService.sellStocks(testTraderStock, 4);
 
         // Getting the updated version of the Trader and TraderStock
         Optional<TraderStock> updatedTraderStock = traderStockRepository

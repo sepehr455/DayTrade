@@ -38,10 +38,9 @@ public class TraderService {
         return currentTrader;
     }
 
-    public Optional<Trader> subtractBalance(Long userId, int amount) {
+    public void subtractBalance(Long userId, int amount) {
         Optional<Trader> currentTrader = traderRepository.findById(userId);
         currentTrader.map(trader -> trader.subtractFromBalance(amount));
         currentTrader.map(traderRepository::save);
-        return currentTrader;
     }
 }

@@ -63,13 +63,15 @@ public class Trader {
         return userHoldings;
     }
 
-    public Optional<Trader> addToBalance(int amount){
+    public Optional<Trader> addToBalance(int amount) {
         this.currentBalance += amount;
         return Optional.of(this);
     }
 
-    public Optional<Trader> subtractFromBalance(int amount){
-        this.currentBalance -= amount;
+    public Optional<Trader> subtractFromBalance(int amount) {
+        if (this.currentBalance >= amount) {
+            this.currentBalance -= amount;
+        }
         return Optional.of(this);
     }
 }

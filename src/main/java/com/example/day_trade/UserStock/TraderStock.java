@@ -55,6 +55,10 @@ public class TraderStock {
         return quantity;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public void setTrader(Trader trader) {
         this.trader = trader;
     }

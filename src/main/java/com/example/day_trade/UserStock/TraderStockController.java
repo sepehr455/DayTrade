@@ -1,6 +1,11 @@
 package com.example.day_trade.UserStock;
 
+import com.example.day_trade.Stock.Stock;
+import com.example.day_trade.Stock.StockService;
+import com.example.day_trade.Trader.Trader;
 import com.example.day_trade.Trader.TraderService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,17 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 public class TraderStockController {
     private final TraderService traderService;
     private final TraderStockService traderStockService;
+    private final StockService stockService;
 
-    public TraderStockController(TraderService userService, TraderStockService userStockService) {
+    public TraderStockController(TraderService userService, TraderStockService userStockService, StockService stockService) {
         this.traderService = userService;
         this.traderStockService = userStockService;
+        this.stockService = stockService;
     }
 
     @GetMapping("/user/{userId}/holding")
@@ -30,16 +36,32 @@ public class TraderStockController {
                 .map(traderStockService::userStockToUserStockDtoConverter).toList();
     }
 
-    @PostMapping("user/{userId}/holding/{stockName}/buy")
+    @PostMapping("/user/{userId}/holding/{stockName}/buy")
     public void buyStock(@PathVariable String stockName, @PathVariable Long userId, @RequestBody String quantity) {
+
+        Trader trader = traderService.getTraderById(userId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
+        Stock stock = stockService.getStockByName(stockName)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the stock with the given name"));
+
         int stockQuantity = Integer.parseInt(quantity.strip());
-        traderStockService.buyStock(userId, stockName, stockQuantity);
+        boolean purchaseStatus = traderStockService.buyStock(trader, stock, stockQuantity);
+
+        if (purchaseStatus) {
+            ResponseEntity.status(HttpStatus.OK).body("Successfully bought the stock shares");
+        } else {
+            ResponseEntity.status(HttpStatus.INSUFFICIENT_STORAGE).body("The user does not have enough money to buy the stocks");
+        }
     }
 
     @PostMapping("user/{userId}/holding/{stockName}/sell")
     public void sellStocks(@PathVariable String stockName, @PathVariable Long userId, @RequestBody String quantity) {
         int stockQuantity = Integer.parseInt(quantity.strip());
-        traderStockService.sellStocks(userId, stockName, stockQuantity);
+
+        TraderStock traderStock = traderStockService.getTraderStock(userId, stockName)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the traderStock"));
+
+        traderStockService.sellStocks(traderStock, stockQuantity);
     }
 }
 
