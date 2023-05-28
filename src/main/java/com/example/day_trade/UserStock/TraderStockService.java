@@ -58,13 +58,18 @@ public class TraderStockService {
         return purchaseStatus;
     }
 
-    public void sellStocks(TraderStock traderStock, int quantity) {
+    public boolean sellStocks(TraderStock traderStock, int quantity) {
+        boolean sellStatus = false;
+
         int totalCost = traderStock.getStock().getStockPrice() * quantity;
 
         // If the user owns enough shares to be sold
         if (traderStock.getQuantity() >= quantity) {
             updateQuantity(quantity, traderStock, -1);
             traderService.addBalance(traderStock.getTrader().getUserId(), totalCost);
+            sellStatus = true;
         }
+
+        return sellStatus;
     }
 }

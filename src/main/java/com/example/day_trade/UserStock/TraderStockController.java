@@ -58,17 +58,24 @@ public class TraderStockController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
     }
 
     @PostMapping("user/{userId}/holding/{stockName}/sell")
-    public void sellStocks(@PathVariable String stockName, @PathVariable Long userId, @RequestBody String quantity) {
+    public ResponseEntity<TraderStockDto> sellStocks(@PathVariable String stockName, @PathVariable Long userId, @RequestBody String quantity) {
         int stockQuantity = Integer.parseInt(quantity.strip());
 
         TraderStock traderStock = traderStockService.getTraderStock(userId, stockName)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the traderStock"));
 
-        traderStockService.sellStocks(traderStock, stockQuantity);
+        boolean sellStatus = traderStockService.sellStocks(traderStock, stockQuantity);
+
+        TraderStockDto traderStockDto = traderStockService.userStockToUserStockDtoConverter(traderStock);
+
+        if (sellStatus) {
+            return ResponseEntity.ok(traderStockDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }
 
