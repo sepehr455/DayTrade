@@ -12,12 +12,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class StockController {
     private final StockService stockService;
 
-    public StockController(StockService stockService){
+    public StockController(StockService stockService) {
         this.stockService = stockService;
     }
 
     @GetMapping("/stock/{stockName}")
-    public ResponseEntity<StockDto> getStockInfo(@PathVariable String stockName){
+    public ResponseEntity<StockDto> getStockInfo(@PathVariable String stockName) {
         Stock stock = stockService.getStockDetails(stockName)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No stock found with the given name"));
         StockDto stockDto = stockService.stockToStockDtoConverter(stock);

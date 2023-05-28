@@ -22,7 +22,7 @@ public class StockService {
     }
 
     public StockDto stockToStockDtoConverter(Stock currentStock) {
-        return new StockDto(currentStock.getStockName(), currentStock.getStockPrice());
+        return new StockDto(currentStock.stockName, currentStock.stockPrice);
     }
 
 }

@@ -17,13 +17,13 @@ public class Trader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userId")
-    Long userId;
+    public Long userId;
 
-    private String fullName;
-    private int currentBalance;
+    public String fullName;
+    public int currentBalance;
 
     @OneToMany
-    private List<TraderStock> userHoldings;
+    public List<TraderStock> userHoldings;
 
     public Trader() {
     }
@@ -37,30 +37,6 @@ public class Trader {
     public Trader(String fullName, int currentBalance) {
         this.fullName = fullName;
         this.currentBalance = currentBalance;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public int getCurrentBalance() {
-        return currentBalance;
-    }
-
-    public void setCurrentBalance(int currentBalance) {
-        this.currentBalance = currentBalance;
-    }
-
-    public List<TraderStock> getUserHoldings() {
-        return userHoldings;
     }
 
     public Optional<Trader> addToBalance(int amount) {

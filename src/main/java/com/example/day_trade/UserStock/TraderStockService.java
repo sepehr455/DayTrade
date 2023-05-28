@@ -22,7 +22,7 @@ public class TraderStockService {
     }
 
     public TraderStockDto userStockToUserStockDtoConverter(TraderStock traderStock) {
-        return new TraderStockDto(traderStock.getTrader(), traderStock.getStock(), traderStock.getQuantity());
+        return new TraderStockDto(traderStock.trader, traderStock.stock, traderStock.quantity);
     }
 
     public void updateQuantity(int quantity, TraderStock traderStock, int sign) {
@@ -35,23 +35,23 @@ public class TraderStockService {
         Optional<Stock> currentStock = stockService.getStockByName(stockName);
 
         return currentTrader.flatMap(trader ->
-                currentStock.flatMap(stock -> traderStockRepository.findByTraderUserIdAndStockStockId(trader.getUserId(), stock.getStock_id())
+                currentStock.flatMap(stock -> traderStockRepository.findByTraderUserIdAndStockStockId(trader.userId, stock.stockId)
                 )
         );
     }
 
     public boolean buyStock(Trader currentTrader, Stock currentStock, int quantity) {
         boolean purchaseStatus = false;
-        int totalCost = currentStock.getStockPrice() * quantity;
+        int totalCost = currentStock.stockPrice * quantity;
 
         // If the user is able to afford the stock
-        if (currentTrader.getCurrentBalance() >= totalCost) {
+        if (currentTrader.currentBalance >= totalCost) {
             TraderStock traderStock = traderStockRepository
-                    .findByTraderUserIdAndStockStockId(currentTrader.getUserId(), currentStock.getStock_id())
+                    .findByTraderUserIdAndStockStockId(currentTrader.userId, currentStock.stockId)
                     .orElse(new TraderStock(currentTrader, currentStock, 0));
 
             updateQuantity(quantity, traderStock, 1);
-            traderService.subtractBalance(currentTrader.getUserId(), totalCost);
+            traderService.subtractBalance(currentTrader.userId, totalCost);
             purchaseStatus = true;
         }
 
@@ -61,12 +61,12 @@ public class TraderStockService {
     public boolean sellStocks(TraderStock traderStock, int quantity) {
         boolean sellStatus = false;
 
-        int totalCost = traderStock.getStock().getStockPrice() * quantity;
+        int totalCost = traderStock.stock.stockPrice * quantity;
 
         // If the user owns enough shares to be sold
-        if (traderStock.getQuantity() >= quantity) {
+        if (traderStock.quantity >= quantity) {
             updateQuantity(quantity, traderStock, -1);
-            traderService.addBalance(traderStock.getTrader().getUserId(), totalCost);
+            traderService.addBalance(traderStock.trader.userId, totalCost);
             sellStatus = true;
         }
 

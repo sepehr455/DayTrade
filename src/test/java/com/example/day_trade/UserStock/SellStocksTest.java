@@ -61,13 +61,13 @@ public class SellStocksTest {
 
         // Getting the updated version of the Trader and TraderStock
         Optional<TraderStock> updatedTraderStock = traderStockRepository
-                .findById(testTraderStock.getId());
-        Trader updatedTrader = traderRepository.findById(testTrader.getUserId())
+                .findById(testTraderStock.id);
+        Trader updatedTrader = traderRepository.findById(testTrader.userId)
                 .orElseThrow(() -> new AssertionError("Failed to retrieve updated trader"));
 
-        Assertions.assertEquals(updatedTraderStock.get().getQuantity(), 1);
+        Assertions.assertEquals(updatedTraderStock.get().quantity, 1);
         Assertions.assertTrue(sellStatus);
-        Assertions.assertEquals(updatedTrader.getCurrentBalance(), 400);
+        Assertions.assertEquals(updatedTrader.currentBalance, 400);
     }
 
 }

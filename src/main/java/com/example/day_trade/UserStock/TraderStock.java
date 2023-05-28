@@ -18,27 +18,19 @@ public class TraderStock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private Trader trader;
+    public Trader trader;
 
     @ManyToOne
     @JoinColumn(name = "stockId", referencedColumnName = "stockId")
-    private Stock stock;
+    public Stock stock;
 
-    private int quantity;
+    public int quantity;
 
     public TraderStock() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Trader getTrader() {
-        return trader;
     }
 
     public TraderStock(Trader trader, Stock stock, int quantity) {
@@ -47,27 +39,7 @@ public class TraderStock {
         this.quantity = quantity;
     }
 
-    public Stock getStock() {
-        return stock;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setTrader(Trader trader) {
-        this.trader = trader;
-    }
-
-    public void setStock(Stock stock) {
-        this.stock = stock;
-    }
-
-    public void addToQuantity(int amount){
+    public void addToQuantity(int amount) {
         this.quantity += amount;
     }
 }

@@ -48,7 +48,7 @@ public class TraderStockController {
 
         int stockQuantity = Integer.parseInt(quantity.strip());
         boolean purchaseStatus = traderStockService.buyStock(trader, stock, stockQuantity);
-        Optional<TraderStock> traderStock = traderStockService.getTraderStock(trader.getUserId(), stockName);
+        Optional<TraderStock> traderStock = traderStockService.getTraderStock(trader.userId, stockName);
 
         Optional<TraderStockDto> traderStockDto = traderStock.map(traderStockService::userStockToUserStockDtoConverter);
         if (purchaseStatus) {

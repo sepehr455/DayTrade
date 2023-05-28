@@ -59,16 +59,16 @@ class BuyStockTest {
         boolean buyStatus = traderStockService.buyStock(testTrader, testStock, 4);
 
         Optional<TraderStock> testTraderStockOptional = traderStockRepository
-                .findByTraderUserIdAndStockStockId(testTrader.getUserId(), testStock.getStock_id());
-        Trader updatedTrader = traderRepository.findById(testTrader.getUserId())
+                .findByTraderUserIdAndStockStockId(testTrader.userId, testStock.stockId);
+        Trader updatedTrader = traderRepository.findById(testTrader.userId)
                 .orElseThrow(() -> new AssertionError("Failed to retrieve updated trader"));
 
         TraderStock testTraderStock = testTraderStockOptional.get();
 
-        assertEquals(testTraderStock.getQuantity(), 4);
-        assertEquals(testTraderStock.getTrader().getUserId(), testTrader.getUserId());
-        assertEquals(testTraderStock.getStock().getStock_id(), testStock.getStock_id());
-        assertEquals(updatedTrader.getCurrentBalance(), 0);
+        assertEquals(testTraderStock.quantity, 4);
+        assertEquals(testTraderStock.trader.userId, testTrader.userId);
+        assertEquals(testTraderStock.stock.stockId, testStock.stockId);
+        assertEquals(updatedTrader.currentBalance, 0);
         assertTrue(buyStatus);
 
     }
@@ -86,12 +86,12 @@ class BuyStockTest {
 
         // Getting the updated version of the Trader and TraderStock
         Optional<TraderStock> updatedTraderStock = traderStockRepository
-                .findById(testTraderStock.getId());
-        Trader updatedTrader = traderRepository.findById(testTrader.getUserId())
+                .findById(testTraderStock.id);
+        Trader updatedTrader = traderRepository.findById(testTrader.userId)
                 .orElseThrow(() -> new AssertionError("Failed to retrieve updated trader"));
 
-        assertEquals(updatedTraderStock.get().getQuantity(), 6);
-        assertEquals(updatedTrader.getCurrentBalance(), 0);
+        assertEquals(updatedTraderStock.get().quantity, 6);
+        assertEquals(updatedTrader.currentBalance, 0);
         assertTrue(buyStatus);
 
     }
