@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
+
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
@@ -37,7 +39,7 @@ public class TraderStockController {
     }
 
     @PostMapping("/user/{userId}/holding/{stockName}/buy")
-    public void buyStock(@PathVariable String stockName, @PathVariable Long userId, @RequestBody String quantity) {
+    public ResponseEntity<TraderStockDto> buyStock(@PathVariable String stockName, @PathVariable Long userId, @RequestBody String quantity) {
 
         Trader trader = traderService.getTraderById(userId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
@@ -46,12 +48,17 @@ public class TraderStockController {
 
         int stockQuantity = Integer.parseInt(quantity.strip());
         boolean purchaseStatus = traderStockService.buyStock(trader, stock, stockQuantity);
+        Optional<TraderStock> traderStock = traderStockService.getTraderStock(trader.getUserId(), stockName);
 
+        Optional<TraderStockDto> traderStockDto = traderStock.map(traderStockService::userStockToUserStockDtoConverter);
         if (purchaseStatus) {
-            ResponseEntity.status(HttpStatus.OK).body("Successfully bought the stock shares");
+            return traderStockDto
+                    .map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
         } else {
-            ResponseEntity.status(HttpStatus.INSUFFICIENT_STORAGE).body("The user does not have enough money to buy the stocks");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+
     }
 
     @PostMapping("user/{userId}/holding/{stockName}/sell")
