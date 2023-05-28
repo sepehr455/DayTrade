@@ -7,14 +7,13 @@ import com.example.day_trade.Trader.Trader;
 import com.example.day_trade.Trader.TraderRepository;
 import com.example.day_trade.Trader.TraderService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
 public class SellStocksTest {
@@ -58,7 +57,7 @@ public class SellStocksTest {
         TraderStock testTraderStock = new TraderStock(testTrader, testStock, 5);
         traderStockRepository.save(testTraderStock);
 
-        traderStockService.sellStocks(testTraderStock, 4);
+        boolean sellStatus = traderStockService.sellStocks(testTraderStock, 4);
 
         // Getting the updated version of the Trader and TraderStock
         Optional<TraderStock> updatedTraderStock = traderStockRepository
@@ -66,7 +65,9 @@ public class SellStocksTest {
         Trader updatedTrader = traderRepository.findById(testTrader.getUserId())
                 .orElseThrow(() -> new AssertionError("Failed to retrieve updated trader"));
 
-        assertEquals(updatedTraderStock.get().getQuantity(), 1);
-        assertEquals(updatedTrader.getCurrentBalance(), 400);
+        Assertions.assertEquals(updatedTraderStock.get().getQuantity(), 1);
+        Assertions.assertTrue(sellStatus);
+        Assertions.assertEquals(updatedTrader.getCurrentBalance(), 400);
     }
+
 }

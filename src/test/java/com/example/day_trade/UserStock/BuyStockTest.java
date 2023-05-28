@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest
@@ -55,7 +56,7 @@ class BuyStockTest {
         traderRepository.save(testTrader);
         stockRepository.save(testStock);
 
-        traderStockService.buyStock(testTrader, testStock, 4);
+        boolean buyStatus = traderStockService.buyStock(testTrader, testStock, 4);
 
         Optional<TraderStock> testTraderStockOptional = traderStockRepository
                 .findByTraderUserIdAndStockStockId(testTrader.getUserId(), testStock.getStock_id());
@@ -68,6 +69,8 @@ class BuyStockTest {
         assertEquals(testTraderStock.getTrader().getUserId(), testTrader.getUserId());
         assertEquals(testTraderStock.getStock().getStock_id(), testStock.getStock_id());
         assertEquals(updatedTrader.getCurrentBalance(), 0);
+        assertTrue(buyStatus);
+
     }
 
     // If the user already owns a share of the stock
@@ -79,7 +82,7 @@ class BuyStockTest {
         // Creating a new instance of the user with the stock
         TraderStock testTraderStock = new TraderStock(testTrader, testStock, 2);
         traderStockRepository.save(testTraderStock);
-        traderStockService.buyStock(testTrader, testStock, 4);
+        boolean buyStatus = traderStockService.buyStock(testTrader, testStock, 4);
 
         // Getting the updated version of the Trader and TraderStock
         Optional<TraderStock> updatedTraderStock = traderStockRepository
@@ -89,6 +92,8 @@ class BuyStockTest {
 
         assertEquals(updatedTraderStock.get().getQuantity(), 6);
         assertEquals(updatedTrader.getCurrentBalance(), 0);
+        assertTrue(buyStatus);
+
     }
 
 }
