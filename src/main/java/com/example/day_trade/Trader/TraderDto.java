@@ -8,13 +8,13 @@ import java.util.List;
 public class TraderDto {
 
     @JsonProperty("trader_name")
-    private final String fullName;
+    public final String fullName;
 
     @JsonProperty("trader_balance")
-    private int currentBalance;
+    public int currentBalance;
 
     @JsonProperty("user_holdings")
-    private List<TraderStockDto> userHoldings;
+    public List<TraderStockDto> userHoldings;
 
     public TraderDto(String fullName) {
         this.fullName = fullName;
@@ -25,12 +25,9 @@ public class TraderDto {
         this.currentBalance = currentBalance;
     }
 
-    public TraderDto(Trader trader){
-        this.fullName = trader.getFullName();
-        this.currentBalance = trader.getCurrentBalance();
+    public TraderDto(Trader trader) {
+        this.fullName = trader.fullName;
+        this.currentBalance = trader.currentBalance;
     }
 
-    public int getCurrentBalance() {
-        return currentBalance;
-    }
 }

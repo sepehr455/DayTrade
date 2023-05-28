@@ -22,12 +22,12 @@ public class AddUserTest {
         // Creating a dummy user
         userRepository.save(testUser);
 
-        Long currentUserId = testUser.getUserId();
+        Long currentUserId = testUser.userId;
 
         // Retrieving the user
         Trader retrievedUser = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
-        assertEquals(testUser.getFullName(), retrievedUser.getFullName());
+        assertEquals(testUser.fullName, retrievedUser.fullName);
 
     }
 }

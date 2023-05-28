@@ -4,30 +4,25 @@ import com.example.day_trade.Stock.Stock;
 import com.example.day_trade.Stock.StockService;
 import com.example.day_trade.Trader.Trader;
 import com.example.day_trade.Trader.TraderService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import java.util.Optional;
 
 @Service
 public class TraderStockService {
 
     private final TraderStockRepository traderStockRepository;
-    private final StockService stockService;
     private final TraderService traderService;
+    private final StockService stockService;
 
     public TraderStockService(TraderStockRepository userStockRepository, StockService stockService, TraderService traderService) {
         this.traderStockRepository = userStockRepository;
-        this.stockService = stockService;
         this.traderService = traderService;
+        this.stockService = stockService;
     }
 
     public TraderStockDto userStockToUserStockDtoConverter(TraderStock traderStock) {
-        return new TraderStockDto(traderStock.getTrader(), traderStock.getStock(), traderStock.getQuantity());
+        return new TraderStockDto(traderStock.trader, traderStock.stock, traderStock.quantity);
     }
 
     public void updateQuantity(int quantity, TraderStock traderStock, int sign) {
@@ -35,46 +30,46 @@ public class TraderStockService {
         traderStockRepository.save(traderStock);
     }
 
-    public TraderStock getTraderStock(Long userId, String stockName) {
-        Long currentStockId = stockService.getStockId(stockName);
+    public Optional<TraderStock> getTraderStock(Long userId, String stockName) {
+        Optional<Trader> currentTrader = traderService.getTraderById(userId);
+        Optional<Stock> currentStock = stockService.getStockByName(stockName);
 
-        Trader currentTrader = traderService.getTraderById(userId)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the user with the given id"));
-        Stock currentStock = stockService.getStockById(currentStockId)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Unable to find the stock with the given id"));
-
-        return traderStockRepository.findByTraderUserIdAndStockStockId(userId, currentStockId)
-                .orElse(new TraderStock(currentTrader, currentStock, 0));
+        return currentTrader.flatMap(trader ->
+                currentStock.flatMap(stock -> traderStockRepository.findByTraderUserIdAndStockStockId(trader.userId, stock.stockId)
+                )
+        );
     }
 
-    public void buyStock(Long userId, String stockName, int quantity) {
-        TraderStock traderStock = getTraderStock(userId, stockName);
+    public boolean buyStock(Trader currentTrader, Stock currentStock, int quantity) {
+        boolean purchaseStatus = false;
+        int totalCost = currentStock.stockPrice * quantity;
 
-        int totalCost = traderStock.getStock().getStockPrice() * quantity;
-        int userBalance = traderStock.getTrader().getCurrentBalance();
+        // If the user is able to afford the stock
+        if (currentTrader.currentBalance >= totalCost) {
+            TraderStock traderStock = traderStockRepository
+                    .findByTraderUserIdAndStockStockId(currentTrader.userId, currentStock.stockId)
+                    .orElse(new TraderStock(currentTrader, currentStock, 0));
 
-        if (userBalance < totalCost) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The user does not have enough money to buy the stock ");
-        } else {
             updateQuantity(quantity, traderStock, 1);
-            traderService.subtractBalance(traderStock.getTrader().getUserId(), totalCost);
+            traderService.subtractBalance(currentTrader.userId, totalCost);
+            purchaseStatus = true;
         }
 
-        ResponseEntity.status(HttpStatus.OK).body("Successfully bought the stock shares");
+        return purchaseStatus;
     }
 
+    public boolean sellStocks(TraderStock traderStock, int quantity) {
+        boolean sellStatus = false;
 
-    public void sellStocks(Long userId, String stockName, int quantity) {
-        TraderStock traderStock = getTraderStock(userId, stockName);
-        updateQuantity(quantity, traderStock, -1);
+        int totalCost = traderStock.stock.stockPrice * quantity;
 
-        if (traderStock.getQuantity() == 0){
-            traderStockRepository.deleteAllById(Collections.singleton(traderStock.getId()));
+        // If the user owns enough shares to be sold
+        if (traderStock.quantity >= quantity) {
+            updateQuantity(quantity, traderStock, -1);
+            traderService.addBalance(traderStock.trader.userId, totalCost);
+            sellStatus = true;
         }
 
-        int totalCost = traderStock.getStock().getStockPrice() * quantity;
-        traderService.addBalance(traderStock.getTrader().getUserId(), totalCost);
-        ResponseEntity.status(HttpStatus.OK).body("Successfully bought the stock shares");
+        return sellStatus;
     }
-
 }

@@ -29,8 +29,8 @@ public class existsByTraderUserIdAndStockStockIdTest {
         traderRepository.save(testTrader);
         stockRepository.save(testStock);
 
-        Long traderId = testTrader.getUserId();
-        Long stockId = testStock.getStock_id();
+        Long traderId = testTrader.userId;
+        Long stockId = testStock.stockId;
 
         TraderStock testTraderStock = new TraderStock(testTrader, testStock, 4);
         traderStockRepository.save(testTraderStock);
